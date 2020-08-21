@@ -24,6 +24,11 @@ app.get('', (req, res) => {
 //localhost:3000/weather?address=spokane
 app.get('/weather', (req, res) => {
     const address = req.query.address
+    if(!address) {
+        return res.send({ 
+            error: "Dude you have to enter and address in the search box for this app to work."
+        })
+    }
     
     weatherData(address, (error, {temperature, description, cityName} = {}) => {
         if(error) {
