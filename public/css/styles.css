@@ -41,7 +41,7 @@ h2 {
   box-shadow: 0 27px 55px 0 rgba(0, 0, 0, 0.3), 0 17px 17px 0 rgba(0, 0, 0, 0.15);
 }
 
-.weatherLocation{
+.weatherLocation {
   display: flex;
   align-items: center;
   width: 100%;
@@ -50,12 +50,12 @@ h2 {
   background-color: #fafafa;
 }
 
-.weatherLocation button{
+.weatherLocation button {
   background: #080705;
   color:#fff;
   border: 1px solid transparent;
 }
-.weatherLocation input:focus{
+.weatherLocation input:focus {
   outline: 0 none;
 }
 

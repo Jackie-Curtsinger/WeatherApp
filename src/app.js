@@ -1,25 +1,29 @@
-const express = require('express');
-const hbs = require('hbs');
-const path = require('path');
+const express = require('express'); 
+const path = require("path");
 const app = express();
-
+const hbs = require('express-handlebars'); //ADDED TO TRY TO FIX
 const weatherData = require('../utils/weatherData');
 
-const port = process.env.PORT || 3000 //THIS IS TO GET THE PORT FROM THE SYSTEM ITS RUNNIGN ON
+const port = process.env.PORT || 3000 //THIS IS TO GET THE PORT FROM THE SYSTEM ITS RUNNING ON
 
-const publicStaticDirPath = path.join(__dirname, "../public");
+const publicStaticDirPath = path.join(__dirname, '../public')
+
 const viewsPath = path.join(__dirname, '../templates/views');
-const partialsPath = path.join(__dirname, '../templates/partials'); //FOR MULTIPLE VIEWS
 
+const partialsPath = path.join(__dirname, '../templates/partials');
 
-app.set('view engine', 'hbs') //LET EXPRESS KNOW THAT THE TEMPLATES ARE COMING FROM HANDLEBARS
+app.engine('.hbs', hbs({defaultLayout: 'layout', extname: '.hbs'}));
+app.set('view engine', '.hbs');
 app.set('views', viewsPath);
 hbs.registerPartials(partialsPath);
 app.use(express.static(publicStaticDirPath));
 
 app.get('', (req, res) => {
-    res.send("Main page of App");
+    res.render('index', {
+        title: 'Weather App'
+    })
 })
+
 
 //localhost:3000/weather?address=spokane
 app.get('/weather', (req, res) => {
@@ -45,10 +49,12 @@ app.get('/weather', (req, res) => {
     })
 });
 
-app.get("*", (req, res) => {
-    res.send("This is not the page you are looking for.")
-});
 
+app.get("*", (req, res) => {
+    res.render('404', {
+        title: "page not found"
+    })
+})
 
 
 app.listen(port, () => {

@@ -1,13 +1,14 @@
 const request = require('request');
 const constants = require('../config');
 
-
-//CALL BACK TO GET DATA
+//CALLBACK TO GET DATA
 const weatherData = (address, callback) => {
     const url = constants.openWeatherMap.BASE_URL + encodeURIComponent(address) + '&appid=' + constants.openWeatherMap.SECRET_KEY;
-    request({url, json:true}, (error, {body}) => {
+    request({url, json:true}, (error, {body})=> {
         if(error) {
-            callback("unable to fetch data from open weather map api", undefined)
+            callback("Sorry, unable to fetch data from the api ", undefined)
+        } else if(!body.main || !body.main.temp || !body.name || !body.weather) {
+            callback("Unable to find required data, try another location", undefined);
         } else {
             callback(undefined, {
                 temperature: body.main.temp,
@@ -17,6 +18,5 @@ const weatherData = (address, callback) => {
         }
     })
 }
-
 
 module.exports = weatherData;
